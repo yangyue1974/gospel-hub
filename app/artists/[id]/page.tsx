@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Badge } from "@/components/ui/badge";
 import { StreamingLinks } from "@/components/streaming-links";
 import { ReleaseCard } from "@/components/release-card";
@@ -11,7 +11,7 @@ type Props = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data: artist } = await supabase
     .from("artists")
     .select("name")
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArtistDetailPage({ params }: Props) {
   const { id } = await params;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const [
     { data: artist },

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ArtistCard } from "@/components/artist-card";
 import { Button } from "@/components/ui/button";
 import { Music, Radio, Calendar } from "lucide-react";
 
 export default async function HomePage() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const { data: artists } = await supabase
     .from("artists")

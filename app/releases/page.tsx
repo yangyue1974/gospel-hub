@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ReleaseCard } from "@/components/release-card";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ export default async function ReleasesPage({
   searchParams: Promise<{ tab?: string }>;
 }) {
   const { tab } = await searchParams;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const showAlbums = tab !== "singles";
   const showSingles = tab !== "albums";

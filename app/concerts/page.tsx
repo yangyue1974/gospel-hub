@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ConcertRow } from "@/components/concert-row";
 
 export default async function ConcertsPage() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const today = new Date().toISOString().split("T")[0];
 

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ArtistCard } from "@/components/artist-card";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ export default async function ArtistsPage({
   searchParams: Promise<{ type?: string }>;
 }) {
   const { type } = await searchParams;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   let query = supabase
     .from("artists")
