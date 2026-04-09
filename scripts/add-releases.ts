@@ -12,6 +12,34 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const COVERS_BUCKET = "album-covers";
+
+// Upload a cover image from URL to Supabase Storage, returns public URL
+export async function uploadCover(imageUrl: string, slug: string): Promise<string | null> {
+  try {
+    // Ensure bucket exists
+    const { data: buckets } = await supabase.storage.listBuckets();
+    if (!buckets?.some((b) => b.name === COVERS_BUCKET)) {
+      await supabase.storage.createBucket(COVERS_BUCKET, { public: true });
+    }
+
+    const res = await fetch(imageUrl);
+    if (!res.ok) return null;
+
+    const buffer = Buffer.from(await res.arrayBuffer());
+    const contentType = res.headers.get("content-type") || "image/jpeg";
+    const ext = contentType.includes("png") ? ".png" : contentType.includes("webp") ? ".webp" : ".jpg";
+    const path = `${slug}${ext}`;
+
+    await supabase.storage.from(COVERS_BUCKET).upload(path, buffer, { contentType, upsert: true });
+
+    const { data } = supabase.storage.from(COVERS_BUCKET).getPublicUrl(path);
+    return data.publicUrl;
+  } catch {
+    return null;
+  }
+}
+
 export async function getArtistId(name: string): Promise<string | null> {
   const { data } = await supabase
     .from("artists")
@@ -49,11 +77,22 @@ export async function addAlbum(artistName: string, album: {
     return false;
   }
 
+  // If cover_url is an external URL, upload to Supabase Storage
+  let finalCoverUrl = album.cover_url || null;
+  if (finalCoverUrl && !finalCoverUrl.includes("supabase.co")) {
+    const slug = `${artistName}-${album.title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
+    const uploaded = await uploadCover(finalCoverUrl, slug);
+    if (uploaded) {
+      finalCoverUrl = uploaded;
+      console.log(`    Cover uploaded: ${slug}`);
+    }
+  }
+
   const { error } = await supabase.from("albums").insert({
     artist_id: artistId,
     title: album.title,
     release_date: album.release_date || null,
-    cover_url: album.cover_url || null,
+    cover_url: finalCoverUrl,
     url_apple_music: album.url_apple_music || null,
     url_spotify: album.url_spotify || null,
     is_new: album.is_new ?? false,
