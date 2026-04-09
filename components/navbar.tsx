@@ -21,11 +21,17 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link
-          href="/"
-          className="text-xl font-semibold tracking-tight text-primary"
-        >
-          Gospel Hub
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2v20M5 9h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-primary-foreground" />
+              <circle cx="12" cy="9" r="4" stroke="currentColor" strokeWidth="2" className="text-primary-foreground" opacity="0.4" />
+            </svg>
+          </div>
+          <div className="flex flex-col leading-none">
+            <span className="text-base font-bold tracking-tight text-foreground">Gospel Hub</span>
+            <span className="text-[10px] font-medium tracking-widest uppercase text-primary/70">Worship &amp; Music</span>
+          </div>
         </Link>
 
         {/* Desktop */}
