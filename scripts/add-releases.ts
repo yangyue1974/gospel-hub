@@ -59,16 +59,12 @@ export async function addAlbum(artistName: string, album: {
   is_new?: boolean;
 }) {
   const artistId = await getArtistId(artistName);
-  if (!artistId) {
-    console.error(`Artist not found: ${artistName}`);
-    return false;
-  }
 
-  // Check for duplicates
+  // Check for duplicates by artist_name + title
   const { data: existing } = await supabase
     .from("albums")
     .select("id")
-    .eq("artist_id", artistId)
+    .eq("artist_name", artistName)
     .eq("title", album.title)
     .limit(1);
 
@@ -89,7 +85,8 @@ export async function addAlbum(artistName: string, album: {
   }
 
   const { error } = await supabase.from("albums").insert({
-    artist_id: artistId,
+    artist_id: artistId || null,
+    artist_name: artistName,
     title: album.title,
     release_date: album.release_date || null,
     cover_url: finalCoverUrl,
@@ -115,15 +112,11 @@ export async function addSingle(artistName: string, single: {
   is_new?: boolean;
 }) {
   const artistId = await getArtistId(artistName);
-  if (!artistId) {
-    console.error(`Artist not found: ${artistName}`);
-    return false;
-  }
 
   const { data: existing } = await supabase
     .from("singles")
     .select("id")
-    .eq("artist_id", artistId)
+    .eq("artist_name", artistName)
     .eq("title", single.title)
     .limit(1);
 
@@ -133,7 +126,8 @@ export async function addSingle(artistName: string, single: {
   }
 
   const { error } = await supabase.from("singles").insert({
-    artist_id: artistId,
+    artist_id: artistId || null,
+    artist_name: artistName,
     title: single.title,
     release_date: single.release_date || null,
     url_apple_music: single.url_apple_music || null,
@@ -160,17 +154,13 @@ export async function addConcert(artistName: string, concert: {
   url_info?: string;
 }) {
   const artistId = await getArtistId(artistName);
-  if (!artistId) {
-    console.error(`Artist not found: ${artistName}`);
-    return false;
-  }
 
-  // Check for duplicates by artist + date + venue
+  // Check for duplicates by artist_name + date + venue
   if (concert.event_date && concert.venue) {
     const { data: existing } = await supabase
       .from("concerts")
       .select("id")
-      .eq("artist_id", artistId)
+      .eq("artist_name", artistName)
       .eq("event_date", concert.event_date)
       .eq("venue", concert.venue)
       .limit(1);
@@ -182,7 +172,8 @@ export async function addConcert(artistName: string, concert: {
   }
 
   const { error } = await supabase.from("concerts").insert({
-    artist_id: artistId,
+    artist_id: artistId || null,
+    artist_name: artistName,
     title: concert.title || null,
     venue: concert.venue || null,
     city: concert.city || null,

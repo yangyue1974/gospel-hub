@@ -31,16 +31,14 @@ export default async function ReleasesPage({
     showAlbums
       ? supabase
           .from("albums")
-          .select("*, artists!inner(id, name, status)")
-          .eq("artists.status", "published")
+          .select("*, artists(id, name)")
           .order("release_date", { ascending: false })
           .limit(50)
       : Promise.resolve({ data: [] }),
     showSingles
       ? supabase
           .from("singles")
-          .select("*, artists!inner(id, name, status)")
-          .eq("artists.status", "published")
+          .select("*, artists(id, name)")
           .order("release_date", { ascending: false })
           .limit(50)
       : Promise.resolve({ data: [] }),
@@ -60,8 +58,8 @@ export default async function ReleasesPage({
       url_apple_music: a.url_apple_music,
       url_spotify: a.url_spotify,
       is_new: a.is_new,
-      artist_name: a.artists.name,
-      artist_id: a.artists.id,
+      artist_name: a.artist_name || a.artists?.name || "Unknown",
+      artist_id: a.artist_id || a.artists?.id || "",
     })),
     ...singles.map((s: any) => ({
       type: "single" as const,
@@ -72,8 +70,8 @@ export default async function ReleasesPage({
       url_spotify: s.url_spotify,
       url_youtube: s.url_youtube,
       is_new: s.is_new,
-      artist_name: s.artists.name,
-      artist_id: s.artists.id,
+      artist_name: s.artist_name || s.artists?.name || "Unknown",
+      artist_id: s.artist_id || s.artists?.id || "",
     })),
   ].sort((a, b) => {
     if (!a.release_date) return 1;

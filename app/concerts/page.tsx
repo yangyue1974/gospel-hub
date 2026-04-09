@@ -9,8 +9,7 @@ export default async function ConcertsPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: concerts } = await supabase
     .from("concerts")
-    .select("*, artists!inner(id, name, status)")
-    .eq("artists.status", "published")
+    .select("*, artists(id, name)")
     .gte("event_date", today)
     .order("event_date");
 
@@ -27,8 +26,8 @@ export default async function ConcertsPage() {
             <ConcertRow
               key={concert.id}
               title={concert.title}
-              artist_name={concert.artists.name}
-              artist_id={concert.artists.id}
+              artist_name={concert.artist_name || concert.artists?.name || "Unknown"}
+              artist_id={concert.artist_id || concert.artists?.id || ""}
               venue={concert.venue}
               city={concert.city}
               country={concert.country}
