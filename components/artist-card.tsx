@@ -6,12 +6,12 @@ export function ArtistCard({ artist }: { artist: Artist }) {
   return (
     <Link href={`/artists/${artist.id}`} className="group">
       <div className="overflow-hidden rounded-lg border border-border bg-card transition-colors hover:border-primary/50">
-        <div className="aspect-square bg-muted relative">
+        <div className="aspect-[4/3] bg-muted relative">
           {artist.photo_url ? (
             <img
               src={artist.photo_url}
               alt={artist.name}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-top"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-4xl text-muted-foreground">

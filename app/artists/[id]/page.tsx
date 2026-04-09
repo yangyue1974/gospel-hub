@@ -83,12 +83,12 @@ export default async function ArtistDetailPage({ params }: Props) {
     <div className="mx-auto max-w-4xl px-4 py-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-lg bg-muted overflow-hidden shrink-0 border border-border">
+        <div className="w-40 sm:w-56 rounded-lg bg-muted overflow-hidden shrink-0 border border-border">
           {artist.photo_url ? (
             <img
               src={artist.photo_url}
               alt={artist.name}
-              className="h-full w-full object-cover"
+              className="w-full h-auto object-cover"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-5xl text-muted-foreground">
