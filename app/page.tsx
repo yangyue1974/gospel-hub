@@ -7,12 +7,32 @@ import { Music, Radio, Calendar } from "lucide-react";
 export default async function HomePage() {
   const supabase = createPublicClient();
 
-  const { data: artists } = await supabase
-    .from("artists")
-    .select("*")
-    .eq("status", "published")
-    .limit(8)
-    .order("name");
+  const today = new Date().toISOString().split("T")[0];
+
+  const [
+    { data: artists },
+    { count: artistCount },
+    { count: albumCount },
+    { count: concertCount },
+  ] = await Promise.all([
+    supabase
+      .from("artists")
+      .select("*")
+      .eq("status", "published")
+      .limit(8)
+      .order("name"),
+    supabase
+      .from("artists")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "published"),
+    supabase
+      .from("albums")
+      .select("id", { count: "exact", head: true }),
+    supabase
+      .from("concerts")
+      .select("id", { count: "exact", head: true })
+      .gte("event_date", today),
+  ]);
 
   const modules = [
     {
@@ -103,15 +123,15 @@ export default async function HomePage() {
           {/* Stats row */}
           <div className="mt-16 flex justify-center gap-8 sm:gap-16">
             <div className="text-center">
-              <p className="text-3xl font-bold text-primary">77</p>
+              <p className="text-3xl font-bold text-primary">{artistCount ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Artists</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-primary">10</p>
+              <p className="text-3xl font-bold text-primary">{albumCount ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">New Albums</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-primary">49</p>
+              <p className="text-3xl font-bold text-primary">{concertCount ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Concerts</p>
             </div>
           </div>
