@@ -131,18 +131,18 @@ export default async function HomePage() {
 
           {/* Stats row */}
           <div className="mt-16 flex justify-center gap-6 sm:gap-16">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-primary">{artistCount ?? 0}</p>
+            <Link href="/artists" className="text-center group">
+              <p className="text-3xl font-bold text-primary group-hover:opacity-80 transition-opacity">{artistCount ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Artists</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-primary">{albumCount ?? 0}</p>
+            </Link>
+            <Link href="/releases" className="text-center group">
+              <p className="text-3xl font-bold text-primary group-hover:opacity-80 transition-opacity">{albumCount ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">New Albums</p>
-            </div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-primary">{concertCount}</p>
+            </Link>
+            <Link href="/concerts" className="text-center group">
+              <p className="text-3xl font-bold text-primary group-hover:opacity-80 transition-opacity">{concertCount}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Tours</p>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
