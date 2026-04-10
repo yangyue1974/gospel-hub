@@ -83,7 +83,7 @@ export default async function ArtistDetailPage({ params }: Props) {
     <div className="mx-auto max-w-4xl px-4 py-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        <div className="w-40 sm:w-56 rounded-lg bg-muted overflow-hidden shrink-0 border border-border">
+        <div className="w-40 sm:w-56 rounded-lg bg-muted overflow-hidden shrink-0 border border-border mx-auto sm:mx-0">
           {artist.photo_url ? (
             <img
               src={artist.photo_url}
@@ -97,7 +97,7 @@ export default async function ArtistDetailPage({ params }: Props) {
           )}
         </div>
         <div className="space-y-3">
-          <h1 className="text-4xl font-bold leading-[0.9]">{artist.name}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold leading-[0.9]">{artist.name}</h1>
           <div className="flex flex-wrap gap-2">
             <Badge variant="outline">
               {artist.type === "band" ? "Band" : "Solo Artist"}

@@ -105,7 +105,7 @@ export default async function HomePage() {
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-7xl font-bold leading-[0.9] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-[0.9] tracking-tight">
             Your Home for
             <br />
             <span className="text-primary">Gospel Music</span>
@@ -114,7 +114,7 @@ export default async function HomePage() {
             Discover artists, track new releases, and find upcoming concerts
             &mdash; all in one place.
           </p>
-          <div className="mt-8 flex justify-center gap-3">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
             <Link href="/artists">
               <Button size="lg" className="text-base px-6">
                 Explore Artists
@@ -128,7 +128,7 @@ export default async function HomePage() {
           </div>
 
           {/* Stats row */}
-          <div className="mt-16 flex justify-center gap-8 sm:gap-16">
+          <div className="mt-16 flex justify-center gap-6 sm:gap-16">
             <div className="text-center">
               <p className="text-3xl font-bold text-primary">{artistCount ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Artists</p>

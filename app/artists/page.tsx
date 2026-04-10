@@ -76,14 +76,14 @@ export default async function ArtistsPage({
             <a
               key={letter}
               href={`#letter-${letter}`}
-              className="w-8 h-8 flex items-center justify-center rounded text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center rounded text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               {letter}
             </a>
           ) : (
             <span
               key={letter}
-              className="w-8 h-8 flex items-center justify-center rounded text-sm text-muted-foreground/30"
+              className="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center rounded text-sm text-muted-foreground/30"
             >
               {letter}
             </span>

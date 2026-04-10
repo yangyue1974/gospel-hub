@@ -15,22 +15,22 @@ export function Footer() {
             <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Explore
             </h4>
-            <div className="mt-3 flex flex-col gap-2">
+            <div className="mt-3 flex flex-col gap-1">
               <Link
                 href="/artists"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
               >
                 Artists
               </Link>
               <Link
                 href="/releases"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
               >
                 New Releases
               </Link>
               <Link
                 href="/concerts"
-                className="text-sm text-foreground/80 hover:text-primary transition-colors"
+                className="text-sm text-foreground/80 hover:text-primary transition-colors py-1.5"
               >
                 Concerts
               </Link>

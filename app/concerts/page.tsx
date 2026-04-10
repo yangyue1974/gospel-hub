@@ -123,18 +123,18 @@ export default async function ConcertsPage() {
                     </div>
                   )}
                 </div>
-                <div className="flex gap-2 shrink-0">
+                <div className="flex gap-2 w-full sm:w-auto sm:shrink-0">
                   {tour.url_tickets && (
-                    <a href={tour.url_tickets} target="_blank" rel="noopener noreferrer">
-                      <Button size="sm" className="gap-1.5">
+                    <a href={tour.url_tickets} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                      <Button size="sm" className="gap-1.5 w-full sm:w-auto">
                         <Ticket className="h-3.5 w-3.5" />
                         Tickets
                       </Button>
                     </a>
                   )}
                   {tour.url_info && (
-                    <a href={tour.url_info} target="_blank" rel="noopener noreferrer">
-                      <Button size="sm" variant="outline" className="gap-1.5">
+                    <a href={tour.url_info} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                      <Button size="sm" variant="outline" className="gap-1.5 w-full sm:w-auto">
                         <ExternalLink className="h-3.5 w-3.5" />
                         Info
                       </Button>

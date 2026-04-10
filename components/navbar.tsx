@@ -70,17 +70,17 @@ export function Navbar() {
 
         {/* Mobile */}
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+          <SheetTrigger className="md:hidden inline-flex items-center justify-center rounded-md p-3 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
             <Menu className="h-5 w-5" />
           </SheetTrigger>
           <SheetContent side="right" className="w-64">
-            <div className="flex flex-col gap-4 mt-8">
+            <div className="flex flex-col gap-2 mt-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`text-lg font-medium ${
+                  className={`text-lg font-medium py-2 ${
                     pathname === link.href
                       ? "text-primary"
                       : "text-muted-foreground"
@@ -93,7 +93,7 @@ export function Navbar() {
                 href="https://paypal.me/yangyue1974"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-lg font-medium text-primary"
+                className="inline-flex items-center gap-2 text-lg font-medium text-primary py-2"
               >
                 <Heart className="h-4 w-4" />
                 Donate
