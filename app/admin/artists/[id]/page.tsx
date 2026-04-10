@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ImageUpload } from "@/components/image-upload";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -88,7 +89,6 @@ export default async function EditArtistPage({ params }: Props) {
     { name: "church_label", label: "Church / Label", type: "text" },
     { name: "style", label: "Style", type: "text" },
     { name: "awards", label: "Awards", type: "text" },
-    { name: "photo_url", label: "Photo URL", type: "url" },
     { name: "url_website", label: "Website", type: "url" },
     { name: "url_wiki", label: "Wikipedia", type: "url" },
     { name: "url_youtube", label: "YouTube", type: "url" },
@@ -112,6 +112,21 @@ export default async function EditArtistPage({ params }: Props) {
           </form>
         )}
       </div>
+
+      {/* Photo upload */}
+      {!isNew && (
+        <div className="mb-6">
+          <Label className="mb-2 block">Artist Photo</Label>
+          <ImageUpload
+            bucket="artist-photos"
+            table="artists"
+            recordId={id}
+            field="photo_url"
+            currentUrl={(artist as any)?.photo_url}
+            slug={(artist as any)?.name?.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "new"}
+          />
+        </div>
+      )}
 
       <form action={saveArtist} className="space-y-4">
         {/* Type select */}

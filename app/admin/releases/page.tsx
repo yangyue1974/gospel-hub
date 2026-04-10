@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ImageUpload } from "@/components/image-upload";
 
 export default async function AdminReleasesPage() {
   const supabase = await createClient();
@@ -49,6 +50,16 @@ export default async function AdminReleasesPage() {
       url_youtube: (formData.get("url_youtube") as string) || null,
       is_new: formData.get("is_new") === "on",
     });
+    revalidatePath("/admin/releases");
+    revalidatePath("/releases");
+  }
+
+  async function updateCoverUrl(formData: FormData) {
+    "use server";
+    const supabase = await createClient();
+    const albumId = formData.get("id") as string;
+    const coverUrl = (formData.get("cover_url") as string) || null;
+    await supabase.from("albums").update({ cover_url: coverUrl }).eq("id", albumId);
     revalidatePath("/admin/releases");
     revalidatePath("/releases");
   }
@@ -171,63 +182,35 @@ export default async function AdminReleasesPage() {
 
       {/* Albums List */}
       <h3 className="text-lg font-semibold mb-3">Albums</h3>
-      <div className="rounded-lg border border-border overflow-hidden mb-8">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-border bg-card">
-              <th className="text-left p-3 text-sm font-medium text-muted-foreground">
-                Title
-              </th>
-              <th className="text-left p-3 text-sm font-medium text-muted-foreground">
-                Artist
-              </th>
-              <th className="text-left p-3 text-sm font-medium text-muted-foreground">
-                Date
-              </th>
-              <th className="text-right p-3 text-sm font-medium text-muted-foreground">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {albums?.map((album: any) => (
-              <tr
-                key={album.id}
-                className="border-b border-border last:border-0"
-              >
-                <td className="p-3 font-medium">
-                  {album.title}
-                  {album.is_new && (
-                    <Badge className="ml-2 text-xs bg-primary/20 text-primary">
-                      New
-                    </Badge>
-                  )}
-                </td>
-                <td className="p-3 text-muted-foreground">
-                  {album.artists?.name}
-                </td>
-                <td className="p-3 text-muted-foreground">
-                  {album.release_date}
-                </td>
-                <td className="p-3 text-right">
-                  <form action={deleteRelease} className="inline">
-                    <input type="hidden" name="table" value="albums" />
-                    <input type="hidden" name="id" value={album.id} />
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      type="submit"
-                      className="text-destructive"
-                    >
-                      Delete
-                    </Button>
-                  </form>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="space-y-3 mb-8">
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {albums?.map((album: any) => (
+          <div key={album.id} className="rounded-lg border border-border p-4">
+            <div className="flex items-start gap-4">
+              {/* Cover upload */}
+              <ImageUpload
+                bucket="album-covers"
+                table="albums"
+                recordId={album.id}
+                field="cover_url"
+                currentUrl={album.cover_url}
+                slug={`${(album.artist_name || album.artists?.name || "unknown").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${album.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+              />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h4 className="font-medium truncate">{album.title}</h4>
+                  {album.is_new && <Badge className="text-xs bg-primary/20 text-primary">New</Badge>}
+                </div>
+                <p className="text-sm text-muted-foreground">{album.artist_name || album.artists?.name} &middot; {album.release_date}</p>
+              </div>
+              <form action={deleteRelease}>
+                <input type="hidden" name="table" value="albums" />
+                <input type="hidden" name="id" value={album.id} />
+                <Button variant="ghost" size="sm" type="submit" className="text-destructive shrink-0">Delete</Button>
+              </form>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Singles List */}
