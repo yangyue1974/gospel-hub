@@ -12,6 +12,20 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Gospel Hub",
   description: "Your home for contemporary gospel music",
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Gospel Hub",
+    statusBarStyle: "black-translucent",
+  },
+  themeColor: "#d4a853",
 };
 
 export default function RootLayout({
