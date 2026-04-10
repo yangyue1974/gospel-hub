@@ -13,7 +13,7 @@ export default async function HomePage() {
     { data: artists },
     { count: artistCount },
     { count: albumCount },
-    { count: concertCount },
+    { data: concertData },
   ] = await Promise.all([
     supabase
       .from("artists")
@@ -30,9 +30,16 @@ export default async function HomePage() {
       .select("id", { count: "exact", head: true }),
     supabase
       .from("concerts")
-      .select("id", { count: "exact", head: true })
+      .select("artist_name, title, url_tickets")
       .gte("event_date", today),
   ]);
+
+  // Count unique tours (same artist + title + ticket URL = one tour)
+  const tourSet = new Set<string>();
+  concertData?.forEach((c: any) => {
+    tourSet.add(`${c.artist_name}::${c.title}::${c.url_tickets}`);
+  });
+  const concertCount = tourSet.size;
 
   const modules = [
     {
@@ -131,8 +138,8 @@ export default async function HomePage() {
               <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">New Albums</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-primary">{concertCount ?? 0}</p>
-              <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Concerts</p>
+              <p className="text-3xl font-bold text-primary">{concertCount}</p>
+              <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Tours</p>
             </div>
           </div>
         </div>
