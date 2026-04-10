@@ -4,6 +4,8 @@ import { ArtistCard } from "@/components/artist-card";
 import { Button } from "@/components/ui/button";
 import { Music, Radio, Calendar } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const supabase = createPublicClient();
 

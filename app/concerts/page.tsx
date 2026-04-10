@@ -23,6 +23,8 @@ function formatDateFull(d: string) {
   return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function ConcertsPage() {
   const supabase = createPublicClient();
   const today = new Date().toISOString().split("T")[0];
