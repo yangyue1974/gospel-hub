@@ -38,13 +38,22 @@ export function Footer() {
           </div>
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              About
+              Support
             </h4>
             <p className="mt-3 text-sm text-muted-foreground">
-              Gospel Hub aggregates information about contemporary gospel music
-              artists, releases, and events. Free to use, supported by
-              donations.
+              Gospel Hub is free to use. If you enjoy this resource, consider supporting us with a donation.
             </p>
+            <a
+              href="https://paypal.me/yangyue1974"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797H9.603c-.564 0-1.04.408-1.13.964L7.076 21.337z" />
+              </svg>
+              Donate via PayPal
+            </a>
           </div>
         </div>
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">

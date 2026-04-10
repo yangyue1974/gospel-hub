@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, Heart } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navLinks = [
@@ -57,6 +57,15 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="https://paypal.me/yangyue1974"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-2 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+          >
+            <Heart className="h-3 w-3" />
+            Donate
+          </a>
         </div>
 
         {/* Mobile */}
@@ -80,6 +89,15 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <a
+                href="https://paypal.me/yangyue1974"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-lg font-medium text-primary"
+              >
+                <Heart className="h-4 w-4" />
+                Donate
+              </a>
             </div>
           </SheetContent>
         </Sheet>
