@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "@/components/image-upload";
+import { ArtistSelect } from "@/components/artist-select";
 
 export default async function AdminReleasesPage() {
   const supabase = await createClient();
@@ -25,8 +26,13 @@ export default async function AdminReleasesPage() {
   async function addAlbum(formData: FormData) {
     "use server";
     const supabase = await createClient();
+    const artistId = (formData.get("artist_id") as string) || null;
+    const artistName = (formData.get("artist_name") as string)?.trim() || null;
+    // Need either an existing artist or a typed name
+    if (!artistId && !artistName) return;
     await supabase.from("albums").insert({
-      artist_id: formData.get("artist_id") as string,
+      artist_id: artistId,
+      artist_name: artistName || null,
       title: formData.get("title") as string,
       release_date: (formData.get("release_date") as string) || null,
       cover_url: (formData.get("cover_url") as string) || null,
@@ -41,8 +47,12 @@ export default async function AdminReleasesPage() {
   async function addSingle(formData: FormData) {
     "use server";
     const supabase = await createClient();
+    const artistId = (formData.get("artist_id") as string) || null;
+    const artistName = (formData.get("artist_name") as string)?.trim() || null;
+    if (!artistId && !artistName) return;
     await supabase.from("singles").insert({
-      artist_id: formData.get("artist_id") as string,
+      artist_id: artistId,
+      artist_name: artistName || null,
       title: formData.get("title") as string,
       release_date: (formData.get("release_date") as string) || null,
       url_apple_music: (formData.get("url_apple_music") as string) || null,
@@ -88,18 +98,7 @@ export default async function AdminReleasesPage() {
         <form action={addAlbum} className="mt-4 grid gap-3 sm:grid-cols-2">
           <div className="space-y-1">
             <Label>Artist</Label>
-            <select
-              name="artist_id"
-              required
-              className="w-full rounded border border-border bg-background px-3 py-2 text-sm"
-            >
-              <option value="">Select artist...</option>
-              {artists?.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
+            <ArtistSelect artists={artists || []} />
           </div>
           <div className="space-y-1">
             <Label>Title</Label>
@@ -137,18 +136,7 @@ export default async function AdminReleasesPage() {
         <form action={addSingle} className="mt-4 grid gap-3 sm:grid-cols-2">
           <div className="space-y-1">
             <Label>Artist</Label>
-            <select
-              name="artist_id"
-              required
-              className="w-full rounded border border-border bg-background px-3 py-2 text-sm"
-            >
-              <option value="">Select artist...</option>
-              {artists?.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
+            <ArtistSelect artists={artists || []} />
           </div>
           <div className="space-y-1">
             <Label>Title</Label>
